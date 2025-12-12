@@ -1,0 +1,56 @@
+"""
+Ручные тест-кейсы для {{ feature_name }}
+{% if description %}
+{{ description }}
+{% endif %}
+"""
+import allure
+import pytest
+from typing import Dict, Any, Optional
+
+{% for import_item in imports %}
+{{ import_item }}
+{% endfor %}
+
+@allure.manual
+@allure.label("owner", "{{ owner|default('test_team') }}")
+@allure.feature("{{ feature_name }}")
+@allure.story("{{ story|default('API Testing') }}")
+@allure.suite("{{ suite|default('manual_tests') }}")
+@pytest.mark.manual
+class {{ class_name }}:
+    """{{ class_description|default('') }}"""
+
+    {% for test_case in test_cases %}
+    @allure.title("{{ test_case.title }}")
+    @allure.link("{{ test_case.jira_link|default('#') }}", name="{{ test_case.jira_name|default('JIRA') }}")
+    @allure.tag("{{ test_case.priority_tag|default('NORMAL') }}")
+    @allure.label("priority", "{{ test_case.priority|default('P2') }}")
+    @allure.description("{{ test_case.description|default('') }}")
+    def {{ test_case.method_name }}(self) -> None:
+        """
+        {{ test_case.description|default('') }}
+
+        Шаги теста:
+        {% for step in test_case.steps %}
+        {{ loop.index }}. {{ step.name }}
+        {% endfor %}
+        """
+        {% for step in test_case.steps %}
+        with allure.step("{{ step.name }}"):
+            {{ step.action|default('# TODO: Выполнить действие') }}
+            {% if step.expected_result %}
+            # Ожидаемый результат: {{ step.expected_result }}
+            {% endif %}
+        {% endfor %}
+        {% if test_case.attachments %}
+        {% for attachment in test_case.attachments %}
+        allure.attach.file(
+            "{{ attachment.path }}",
+            name="{{ attachment.name }}",
+            attachment_type=allure.attachment_type.{{ attachment.type|default('PNG') }}
+        )
+        {% endfor %}
+        {% endif %}
+
+    {% endfor %}

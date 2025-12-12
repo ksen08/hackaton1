@@ -1,0 +1,52 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Evolution Compute Public API v3",
+    "version": "3.0.0",
+    "description": "API для управления виртуальными машинами, дисками и флейворами"
+  },
+  "servers": [{"url": "https://compute.api.cloud.ru"}],
+  "paths": {
+    "/vms": {
+      "get": {
+        "summary": "Получить список виртуальных машин",
+        "tags": ["vms"],
+        "responses": {"200": {"description": "Успешно"}}
+      },
+      "post": {
+        "summary": "Создать виртуальную машину",
+        "tags": ["vms"],
+        "requestBody": {"content": {"application/json": {"schema": {"type": "object"}}}},
+        "responses": {"201": {"description": "Создано"}}
+      }
+    },
+    "/vms/{id}": {
+      "get": {
+        "summary": "Получить виртуальную машину по ID",
+        "tags": ["vms"],
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}],
+        "responses": {"200": {"description": "Успешно"}}
+      },
+      "delete": {
+        "summary": "Удалить виртуальную машину",
+        "tags": ["vms"],
+        "responses": {"204": {"description": "Удалено"}}
+      }
+    },
+    "/disks": {
+      "get": {
+        "summary": "Получить список дисков",
+        "tags": ["disks"],
+        "responses": {"200": {"description": "Успешно"}}
+      }
+    },
+    "/flavors": {
+      "get": {
+        "summary": "Получить список флейворов",
+        "tags": ["flavors"],
+        "responses": {"200": {"description": "Успешно"}}
+      }
+    }
+  }
+}
+

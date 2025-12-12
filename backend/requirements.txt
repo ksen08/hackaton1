@@ -1,0 +1,6 @@
+# backend/requirements.txt — финальная версия под ТЗ (декабрь 2025)
+fastapi==0.115.0
+uvicorn[standard]==0.31.0
+openai==1.58.1               # официальный клиент Cloud.ru Evolution
+python-dotenv==1.0.1
+pydantic==2.9.2

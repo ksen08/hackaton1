@@ -1,0 +1,31 @@
+# Файлы окружения
+.env
+.env.local
+.env.*.local
+
+# Папки с данными
+backend/uploads/
+backend/parser_output/
+backend/generated_tests/
+backend/validation_reports/
+backend/logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+env/
+.venv/
+ENV/
+
+# PyCharm
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Операционные системы
+.DS_Store
+Thumbs.db

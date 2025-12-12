@@ -1,0 +1,20 @@
+@allure.title("{{ title }}")
+@allure.tag("{{ priority_tag|default('NORMAL') }}")
+@allure.label("priority", "{{ priority|default('P2') }}")
+@allure.description("{{ description|default('') }}")
+def {{ method_name }}(self{% if params %}, {{ params|join(', ') }}{% endif %}) -> None:
+    """
+    {{ description|default('') }}
+
+    Шаги теста:
+    {% for step in steps %}
+    {{ loop.index }}. {{ step.name }}
+    {% endfor %}
+    """
+    {% for step in steps %}
+    with allure.step("{{ step.name }}"):
+        {{ step.action|default('pass') }}
+        {% if step.expected_result %}
+        # Ожидаемый результат: {{ step.expected_result }}
+        {% endif %}
+    {% endfor %}

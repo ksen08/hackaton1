@@ -1,0 +1,56 @@
+"""
+Автоматизированные тесты для {{ endpoint_name }}
+Сгенерировано на основе OpenAPI спецификации
+"""
+import pytest
+import allure
+import requests
+from typing import Dict, Any, List, Optional
+import json
+import time
+{% for import_item in imports %}
+{{ import_item }}
+{% endfor %}
+
+@allure.feature("{{ feature }}")
+@allure.story("{{ story|default('API Testing') }}")
+class {{ class_name }}:
+    """{{ class_description|default('') }}"""
+
+    {% for fixture in fixtures %}
+    {{ fixture }}
+
+    {% endfor %}
+    {% for test in tests %}
+    @allure.title("{{ test.title }}")
+    @allure.tag("{{ test.priority|default('NORMAL') }}")
+    @allure.severity(allure.severity_level.{{ test.severity|default('NORMAL') }})
+    def {{ test.method_name }}(self{{ test.fixture_params }}) -> None:
+        """{{ test.description|default('') }}"""
+
+        # ===== ARRANGE =====
+        {% for arrange_line in test.arrange %}
+        {{ arrange_line }}
+        {% endfor %}
+
+        # ===== ACT =====
+        {% for act_line in test.act %}
+        {{ act_line }}
+        {% endfor %}
+
+        # ===== ASSERT =====
+        {% for assert_line in test.assertions %}
+        {{ assert_line }}
+        {% endfor %}
+        {% if test.allure_attach %}
+        # Дополнительные вложения Allure
+        {% for attach in test.allure_attach %}
+        allure.attach(
+            {{ attach.content }},
+            name="{{ attach.name }}",
+            attachment_type=allure.attachment_type.{{ attach.type|default('TEXT') }}
+        )
+        {% endfor %}
+        {% endif %}
+
+    {% endfor %}
